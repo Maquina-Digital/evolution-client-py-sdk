@@ -1,0 +1,65 @@
+Metadata-Version: 2.4
+Name: evolution-client
+Version: 1.0.0
+Summary: Python client and webhook handler for Evolution WhatsApp Evolution API
+Author: Jonas Da Silva
+License: MIT
+Project-URL: Homepage, https://github.com/yourname/evolution-client
+Project-URL: Documentation, https://doc.evolution-api.com/
+Project-URL: Issues, https://github.com/yourname/evolution-client/issues
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: httpx>=0.27.0
+Requires-Dist: pydantic>=2.6.0
+Requires-Dist: loguru>=0.7.0
+
+
+# evolution-client
+
+Typed Python client + service + webhook helpers for **Evolution API** (WhatsApp automation).  
+Framework-agnostic: use it with Django, FastAPI or Flask.
+
+## Install (local)
+
+```bash
+pip install -e .
+```
+
+## Quick start
+
+```python
+from evolution_client import EvolutionApiClient, MessagingService
+from evolution_client import TextMessage, ButtonsMessage, ButtonItem, PollMessage
+
+client = EvolutionApiClient(
+    base_url="https://evo1.example.com",
+    instance="My%20Instance",
+    api_key="YOUR_API_KEY"
+)
+svc = MessagingService(client)
+
+# text
+svc.send(TextMessage(number="324701234567", text="Hello!"))
+
+# buttons
+svc.send(ButtonsMessage(
+    number="324701234567",
+    text="Approve proposal?",
+    buttons=[ButtonItem(id="accept", label="✅ Accept"),
+             ButtonItem(id="reject", label="❌ Reject")]
+))
+
+# poll (flat format for wider compatibility)
+svc.send(PollMessage(
+    number="324701234567",
+    name="Do you accept this proposal?",
+    selectableCount=1,
+    values=["✅ Accept it", "❌ Reject it"]
+))
+```
+
+## Webhook
+
+Use `verify_signature(raw, signature, secret)` to verify requests if you configured a secret on Evolution API.
+
+Normalize types with `normalize_event_type(event, payload)` and extract numbers with `extract_from_number(payload)`.
