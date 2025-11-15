@@ -17,6 +17,4 @@ def test_models_poll():
     m = PollMessage(number="324701234567", name="Q", selectableCount=1, values=["A","B"])
     assert m.type == "poll"
 
-def test_models_poll_fail():
-    m = PollMessage(number="324701234567", name="Q", selectableCount=1, values=["A","B"])
-    assert m.type == "poll..."
+
