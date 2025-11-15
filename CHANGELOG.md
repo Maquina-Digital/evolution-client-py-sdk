@@ -1,3 +1,14 @@
+## [1.0.2](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.0.1...v1.0.2) (2025-11-15)
+
+
+### Bug Fixes
+
+* adjust message payload format ([0e9aa8d](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/0e9aa8d78f2d88ca5ae25fda7e9f1c7bf63f3474))
+* trigger release test ([520d7e9](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/520d7e917b6f5dcdfa735da955d058f5601be402))
+* trigger release test ([ab819a0](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/ab819a0768c0549478b7c8e8f99e4202be574591))
+* trigger release test2 ([a3a3f82](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/a3a3f82bbbc66c72376567e800c824bed1fb5744))
+* trigger release test3 ([e2a662a](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/e2a662a65e1501070e9ca1abfce6f74ef45fe9b6))
+
 ## [1.0.1](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.0.0...v1.0.1) (2025-11-10)
 
 

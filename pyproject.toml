@@ -1,7 +1,7 @@
 
 [project]
 name = "evolution-client"
-version = "1.0.0"
+version = "1.0.2"
 description = "Python client and webhook handler for Evolution WhatsApp Evolution API"
 authors = [{name = "Jonas Da Silva"}]
 readme = "README.md"
