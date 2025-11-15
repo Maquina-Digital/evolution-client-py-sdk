@@ -18,16 +18,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # necessário para tags
+          fetch-depth: 0
 
-      - name: Set up Node.js (for semantic-release)
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      # Install Poetry
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
 
+      # Install Python dependencies (including tomlkit)
       - name: Install dependencies
+        run: poetry install --only dev
+
+      # Install semantic-release + plugins
+      - name: Install semantic-release
         run: |
-          npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+          npm install -g semantic-release \
+            @semantic-release/changelog \
+            @semantic-release/git \
+            @semantic-release/github \
+            @semantic-release/commit-analyzer \
+            @semantic-release/release-notes-generator
 
       - name: Run Semantic Release
         env:
