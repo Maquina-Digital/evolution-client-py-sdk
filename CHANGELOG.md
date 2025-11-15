@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.0.2...v1.1.0) (2025-11-15)
+
+
+### Features
+
+* add Makefile for project management and CI testing setup ([dd7ee49](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/dd7ee49059224b0125146f3756b8b343862e2132))
+
 ## [1.0.2](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.0.1...v1.0.2) (2025-11-15)
 
 
