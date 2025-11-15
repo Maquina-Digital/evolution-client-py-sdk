@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install semantic-release dependencies
+      - name: Install dependencies (semantic-release)
         run: |
           npm install -g semantic-release \
             @semantic-release/changelog \
@@ -35,16 +35,14 @@ jobs:
             @semantic-release/release-notes-generator \
             @semantic-release/exec
 
-      # FIX: install Python + toml
-      - name: Set up Python
+      # ✅ Fix: install tomlkit so your script can run
+      - name: Install Python + tomlkit
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      - name: Install Python dependencies for release scripts
-        run: |
-          python -m pip install --upgrade pip
-          pip install toml
+      - name: Install tomlkit
+        run: pip install tomlkit
 
       - name: Run Semantic Release
         env:
