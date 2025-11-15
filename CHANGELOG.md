@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.0.0...v1.0.1) (2025-11-10)
+
+
+### Bug Fixes
+
+* Update workflow for automatic semantic release ([b2a55d3](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/b2a55d346db21ebf157b602647f4990b2eaa910c))
+
 <!-- CHANGELOG.md -->
 # Changelog
 
