@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.1.0...v1.1.1) (2025-11-15)
+
+
+### Bug Fixes
+
+* remove unused test function from test_models.py ([a889932](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/a889932002625538e1626ef6fcea505006b1e416))
+
 # [1.1.0](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.0.2...v1.1.0) (2025-11-15)
 
 
