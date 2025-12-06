@@ -52,6 +52,14 @@ jobs:
         with:
           node-version: 20
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+
+      - name: Install Python dependencies
+        run: pip install tomlkit
+
       - name: Install release dependencies
         run: |
           npm install -g semantic-release \
