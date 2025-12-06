@@ -9,6 +9,37 @@ This package offers a clean, type-safe client for sending **messages, polls, but
 
 ---
 
+## 🌟 Why use this SDK?
+
+Here is a simple breakdown of what the **Evolution Client SDK** can do:
+
+### 1. 📤 Send Anything on WhatsApp
+Send all important message types with just one line of code:
+*   **Text Messages**: Simple chat messages.
+*   **Buttons**: Interactive messages with "Yes/No" or "Buy Now" buttons.
+*   **Polls**: Create polls for users to vote on.
+*   **Media**: Send images, videos, or documents easily.
+
+### 2. 📥 Receive & Handle Messages (Webhooks)
+It makes "listening" to WhatsApp easy. Instead of dealing with messy raw data, you get clean, organized events when:
+*   A new message arrives.
+*   A message is delivered or read (blue ticks).
+*   The phone connection status changes.
+
+### 3. ⚡ High Performance (Async)
+It supports **Async** (asynchronous) programming. This means your app can handle thousands of messages at the same time without freezing or slowing down—perfect for high-traffic chatbots.
+
+### 4. 🛡️ Bulletproof Reliability
+*   **Auto-Retry**: If the Evolution API blips or the network fails, the SDK automatically tries sending the message again, so you don't lose data.
+*   **Type Safe**: It uses strict data models. Your code editor (VS Code, PyCharm) will autocomplete fields for you and warn you if you make a mistake *before* you run the code.
+
+### 5. 🔌 Easy Integration
+It works with any Python framework:
+*   **Django**, **Flask**, **FastAPI**, or simple scripts.
+*   Designed to be installed and used in minutes.
+
+---
+
 ## 🚀 Features
 
 - Typed message models (`TextMessage`, `ButtonsMessage`, `PollMessage`, `MediaMessage`)
@@ -98,7 +129,9 @@ poetry install
 from evolution_client import (
     EvolutionApiClient, MessagingService,
     TextMessage, ButtonsMessage, ButtonItem,
-    PollMessage, MediaMessage
+    PollMessage, MediaMessage, AudioMessage,
+    StickerMessage, LocationMessage, ListMessage,
+    ListSection, ListRow, ReactionMessage
 )
 
 # Initialize the client
@@ -108,7 +141,7 @@ client = EvolutionApiClient(
     api_key="YOUR_API_KEY"
 )
 service = MessagingService(client)
-number = "+32489098226"
+number = "+001234567890"
 
 # 🗨️ Send text
 service.send(TextMessage(number=number, text="Hello from Evolution SDK!"))
@@ -138,28 +171,108 @@ service.send(MediaMessage(
     caption="🖼️ Example media from Evolution API",
     mime_type="image"
 ))
+
+# 🎤 Send audio
+service.send(AudioMessage(
+    number=number,
+    url="https://example.com/audio.mp3"
+))
+
+# 📍 Send location
+service.send(LocationMessage(
+    number=number,
+    latitude=40.7128,
+    longitude=-74.0060,
+    name="New York City",
+    address="NY, USA"
+))
+
+# 📋 Send list (Menu)
+service.send(ListMessage(
+    number=number,
+    title="Main Menu",
+    buttonText="Open Menu",
+    description="Select an option",
+    sections=[
+        ListSection(
+            title="Support",
+            rows=[
+                ListRow(title="Talk to Agent", rowId="agent"),
+                ListRow(title="FAQ", rowId="faq")
+            ]
+        )
+    ]
+))
+
+# ❤️ Send reaction
+service.send(ReactionMessage(
+    number=number,
+    key={"id": "MESSAGE_ID_TO_REACT", "fromMe": True},
+    reaction="🔥"
+))
 ```
 
 ---
 
-## 🧰 Webhook Example
+## ⚡ Async Support
+
+For high-performance applications (FastAPI, Django Async), use `AsyncEvolutionClient` and `AsyncMessagingService`.
 
 ```python
-from evolution_client.webhook import verify_signature, normalize_event_type, extract_from_number
+import asyncio
+from evolution_client import AsyncEvolutionClient, AsyncMessagingService, TextMessage
 
-def handle_webhook(request):
-    raw_body = request.body
-    signature = request.headers.get("X-Signature")
-    secret = "YOUR_WEBHOOK_SECRET"
+async def main():
+    async with AsyncEvolutionClient(
+        base_url="https://api.evolution.com",
+        instance="MyInstance",
+        api_key="MY_KEY"
+    ) as client:
+        service = AsyncMessagingService(client)
+        
+        # Send a message
+        await service.send(TextMessage(
+            number="+1234567890", 
+            text="Hello from Async World! 🚀"
+        ))
 
-    if not verify_signature(raw_body, signature, secret):
-        return {"status": 403, "message": "Invalid signature"}
+if __name__ == "__main__":
+    asyncio.run(main())
+```
 
-    event_data = json.loads(raw_body)
-    event_type = normalize_event_type(event_data.get("event"), event_data.get("data", {}))
-    sender = extract_from_number(event_data.get("data", {}))
+---
 
-    print(f"Webhook event {event_type} received from {sender}")
+## 🧰 Webhook Handling
+
+To receive messages, you must configure your Evolution API instance to send events to your application.
+
+### 1. Configure Evolution API
+You need to tell Evolution API where your Python app is running.
+- Go to your Evolution API Manager (or use the API).
+- Find your **Instance Settings**.
+- Set **Webhook URL** to your server's endpoint (e.g., `https://your-server.com/webhook`).
+- Enable the events you want to receive (e.g., `MESSAGES_UPSERT`, `MESSAGES_UPDATE`).
+
+### 2. Handle Events in Python
+The SDK provides a `WebhookHandler` to process these incoming requests easily.
+
+```python
+from evolution_client import WebhookHandler, MessageUpsertEvent, MessageUpdateEvent
+
+# Initialize handler (optional: pass secret for signature verification)
+handler = WebhookHandler(secret="YOUR_WEBHOOK_SECRET")
+
+@handler.on("messages.upsert")
+def on_new_message(event: MessageUpsertEvent):
+    print(f"📩 New message from {event.data.pushName}: {event.data.message}")
+
+@handler.on("messages.update")
+def on_message_update(event: MessageUpdateEvent):
+    print(f"🔄 Message status updated: {event.data}")
+
+# Example integration with Flask/FastAPI
+# payload = request.json()
+# handler.handle(payload)
 ```
 
 ---
@@ -172,7 +285,9 @@ Example test case:
 from evolution_client import (
     EvolutionApiClient, MessagingService,
     TextMessage, ButtonsMessage, ButtonItem,
-    PollMessage, MediaMessage
+    PollMessage, MediaMessage, AudioMessage,
+    StickerMessage, LocationMessage, ListMessage,
+    ListSection, ListRow, ReactionMessage
 )
 
 client = EvolutionApiClient(
@@ -226,9 +341,10 @@ poetry run pytest
 
 ## 🏗️ Roadmap
 
-- [ ] Async support (`httpx.AsyncClient`)
+- [x] Async support (`httpx.AsyncClient`)
+- [x] Event models for webhook handling
+- [x] Typed API responses
 - [ ] Built-in message queue retry decorators
-- [ ] Event models for webhook handling
 - [ ] MIME type auto-detection for media uploads
 
 ---

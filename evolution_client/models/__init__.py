@@ -4,5 +4,12 @@ from .messages import (
     ButtonItem,
     PollMessage,
     MediaMessage,
+    AudioMessage,
+    StickerMessage,
+    LocationMessage,
+    ListMessage,
+    ListSection,
+    ListRow,
+    ReactionMessage,
     Message,
 )
