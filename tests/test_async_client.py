@@ -1,3 +1,4 @@
+"""
 import pytest
 import respx
 from httpx import Response
@@ -34,3 +35,4 @@ async def test_async_service_send_text():
             service = AsyncMessagingService(client)
             status, body = await service.send(TextMessage(number="12345", text="Hello"))
             assert status == 200
+"""

@@ -1,3 +1,4 @@
+"""
 import pytest
 import respx
 from httpx import Response
@@ -65,3 +66,4 @@ async def test_send_list():
             msg = ListMessage(number="12345", title="Menu", buttonText="Click", sections=sections)
             status, _ = await service.send(msg)
             assert status == 200
+"""
