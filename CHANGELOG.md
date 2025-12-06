@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.1.1...v1.2.0) (2025-12-06)
+
+
+### Features
+
+* Introduce webhook handling, an asynchronous client, and expanded message types including audio, sticker, location, list, and reaction. ([83f0c37](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/83f0c37c7fa18648524af6ef13bda23da8fe6d38))
+
 ## [1.1.1](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.1.0...v1.1.1) (2025-11-15)
 
 
