@@ -1,3 +1,13 @@
+# [1.3.0](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.2.0...v1.3.0) (2025-12-07)
+
+
+### Features
+
+* Add group and chat management APIs, new group models, and corresponding tests. ([325c42b](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/325c42b899bd7584f0ce5e01fdf94c671ab4630b))
+* Add instance management functionality to both sync and async clients, including new models, tests, and documentation. ([8a9bfbc](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/8a9bfbca062cddd364cb2983657af8daae2975e2))
+* Add profile management methods to update profile name and status, including documentation and tests. ([864acc2](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/864acc2f85deb90be2d99068c0ce9a2e508edf28))
+* Implement automatic MIME type detection for media uploads and update client version in README. ([16ba6cf](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/16ba6cf19cb211b57eadcc6b3459368cf74cf839))
+
 # [1.2.0](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.1.1...v1.2.0) (2025-12-06)
 
 
