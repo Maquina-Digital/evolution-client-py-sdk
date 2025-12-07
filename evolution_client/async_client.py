@@ -294,3 +294,20 @@ class AsyncEvolutionClient:
         url = self._endpoint(endpoint)
         payload = {"read": read}
         return await self._post(url, payload)
+
+    # Profile Management
+    async def profile_update_name(self, name: str) -> httpx.Response:
+        """
+        Update profile name.
+        """
+        url = self._endpoint("/chat/updateProfileName")
+        payload = {"name": name}
+        return await self._post(url, payload)
+
+    async def profile_update_status(self, status: str) -> httpx.Response:
+        """
+        Update profile status (about).
+        """
+        url = self._endpoint("/chat/updateProfileStatus")
+        payload = {"status": status}
+        return await self._post(url, payload)

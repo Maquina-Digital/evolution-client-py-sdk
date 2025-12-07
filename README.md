@@ -305,6 +305,18 @@ client.chat_mark_read(number="1234567890", read=True)
 
 ---
 
+## 👤 Profile Management
+
+```python
+# Update Name
+client.profile_update_name("My Business Name")
+
+# Update Status (About)
+client.profile_update_status("Available for new orders! 🚀")
+```
+
+---
+
 ## 🧰 Webhook Handling
 
 To receive messages, you must configure your Evolution API instance to send events to your application.

@@ -307,3 +307,20 @@ class EvolutionApiClient:
         # For markMessageAsUnread, it might be different.
         # Let's stick to a generic payload for now.
         return self._post(url, payload)
+
+    # Profile Management
+    def profile_update_name(self, name: str) -> httpx.Response:
+        """
+        Update profile name.
+        """
+        url = self._endpoint("/chat/updateProfileName")
+        payload = {"name": name}
+        return self._post(url, payload)
+
+    def profile_update_status(self, status: str) -> httpx.Response:
+        """
+        Update profile status (about).
+        """
+        url = self._endpoint("/chat/updateProfileStatus")
+        payload = {"status": status}
+        return self._post(url, payload)
