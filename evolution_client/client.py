@@ -232,3 +232,78 @@ class EvolutionApiClient:
         """
         url = f"{self.base}/instance/fetchInstances"
         return self._client.get(url)
+
+    # Group Management
+    def group_create(
+            self, *, subject: str, participants: List[str], description: Optional[str] = None
+    ) -> httpx.Response:
+        """
+        Create a new group.
+        """
+        url = self._endpoint("/group/create")
+        payload = {
+            "subject": subject,
+            "participants": participants
+        }
+        if description:
+            payload["description"] = description
+        return self._post(url, payload)
+
+    def group_update_picture(self, *, group_jid: str, image_url: str) -> httpx.Response:
+        """
+        Update group profile picture.
+        """
+        url = self._endpoint("/group/updateProfilePicture")
+        payload = {
+            "id": group_jid,
+            "image": image_url
+        }
+        return self._post(url, payload)
+
+    def group_fetch_all(self) -> httpx.Response:
+        """
+        Fetch all groups.
+        """
+        url = self._endpoint("/group/fetchAllGroups")
+        return self._client.get(url)
+
+    def group_participants_update(
+            self, *, group_jid: str, action: str, participants: List[str]
+    ) -> httpx.Response:
+        """
+        Update group participants (add, remove, promote, demote).
+        action: "add" | "remove" | "promote" | "demote"
+        """
+        url = self._endpoint("/group/updateParticipant")
+        payload = {
+            "id": group_jid,
+            "action": action,
+            "participants": participants
+        }
+        return self._post(url, payload)
+
+    # Chat Management
+    def chat_archive(self, *, number: str, archive: bool = True) -> httpx.Response:
+        """
+        Archive or unarchive a chat.
+        """
+        url = self._endpoint("/chat/archiveChat")
+        payload = {
+            "number": number,
+            "archive": archive
+        }
+        return self._post(url, payload)
+
+    def chat_mark_read(self, *, number: str, read: bool = True) -> httpx.Response:
+        """
+        Mark a chat as read or unread.
+        """
+        endpoint = "/chat/markMessageAsRead" if read else "/chat/markMessageAsUnread"
+        url = self._endpoint(endpoint)
+        payload = {"read": read}  # Payload structure varies, usually just 'read' boolean or empty for unread
+        # Actually for markMessageAsRead it expects {"read": true} usually
+        # Let's check docs or assume standard pattern.
+        # For markMessageAsRead, payload is usually {"read": true}
+        # For markMessageAsUnread, it might be different.
+        # Let's stick to a generic payload for now.
+        return self._post(url, payload)

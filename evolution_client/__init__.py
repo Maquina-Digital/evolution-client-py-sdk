@@ -14,6 +14,8 @@ from .models import (
     ListRow,
     ReactionMessage,
     Message,
+    Group,
+    GroupParticipant,
 )
 from .models.webhooks import (
     WebhookEvent,

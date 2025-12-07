@@ -13,3 +13,4 @@ from .messages import (
     ReactionMessage,
     Message,
 )
+from .group import Group, GroupParticipant

@@ -271,6 +271,40 @@ client.delete_instance("my_new_instance")
 
 ---
 
+## 👥 Group & Chat Management
+
+Manage groups and chats programmatically.
+
+```python
+# Create a group
+client.group_create(
+    subject="My Community",
+    participants=["1234567890", "0987654321"],
+    description="Welcome to our group!"
+)
+
+# Update group picture
+client.group_update_picture(
+    group_jid="1234567890-123456@g.us",
+    image_url="https://example.com/group-icon.png"
+)
+
+# Manage participants
+client.group_participants_update(
+    group_jid="1234567890-123456@g.us",
+    action="add", # add, remove, promote, demote
+    participants=["1122334455"]
+)
+
+# Archive a chat
+client.chat_archive(number="1234567890", archive=True)
+
+# Mark as read
+client.chat_mark_read(number="1234567890", read=True)
+```
+
+---
+
 ## 🧰 Webhook Handling
 
 To receive messages, you must configure your Evolution API instance to send events to your application.
