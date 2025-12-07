@@ -176,3 +176,51 @@ class AsyncEvolutionClient:
         if footer:
             payload["footer"] = footer
         return await self._post(url, payload)
+
+    # Instance Management
+    async def create_instance(
+            self, *, instance_name: str, token: Optional[str] = None, qrcode: bool = True
+    ) -> httpx.Response:
+        """
+        Create a new Evolution API instance.
+        """
+        url = f"{self.base}/instance/create"
+        payload = {
+            "instanceName": instance_name,
+            "qrcode": qrcode
+        }
+        if token:
+            payload["token"] = token
+        return await self._post(url, payload)
+
+    async def connect_instance(self, instance_name: Optional[str] = None) -> httpx.Response:
+        """
+        Fetch the QR Code for an instance.
+        If instance_name is not provided, uses the client's configured instance.
+        """
+        target_instance = instance_name or self.instance
+        url = f"{self.base}/instance/connect/{target_instance}"
+        return await self._client.get(url)
+
+    async def logout_instance(self, instance_name: Optional[str] = None) -> httpx.Response:
+        """
+        Logout an instance.
+        """
+        target_instance = instance_name or self.instance
+        url = f"{self.base}/instance/logout/{target_instance}"
+        return await self._client.delete(url)
+
+    async def delete_instance(self, instance_name: Optional[str] = None) -> httpx.Response:
+        """
+        Delete an instance.
+        """
+        target_instance = instance_name or self.instance
+        url = f"{self.base}/instance/delete/{target_instance}"
+        return await self._client.delete(url)
+
+    async def fetch_instances(self) -> httpx.Response:
+        """
+        List all instances.
+        """
+        url = f"{self.base}/instance/fetchInstances"
+        return await self._client.get(url)

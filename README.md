@@ -242,6 +242,35 @@ if __name__ == "__main__":
 
 ---
 
+## 🛠️ Instance Management
+
+You can create, connect, and manage instances directly from the SDK.
+
+```python
+# Create a new instance
+client.create_instance(
+    instance_name="my_new_instance",
+    token="optional_secret_token",
+    qrcode=True
+)
+
+# Get QR Code (base64) to scan
+response = client.connect_instance("my_new_instance")
+print(response.json())
+
+# List all instances
+instances = client.fetch_instances()
+print(instances.json())
+
+# Logout
+client.logout_instance("my_new_instance")
+
+# Delete
+client.delete_instance("my_new_instance")
+```
+
+---
+
 ## 🧰 Webhook Handling
 
 To receive messages, you must configure your Evolution API instance to send events to your application.

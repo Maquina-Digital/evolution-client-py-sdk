@@ -184,3 +184,51 @@ class EvolutionApiClient:
         if footer:
             payload["footer"] = footer
         return self._post(url, payload)
+
+    # Instance Management
+    def create_instance(
+            self, *, instance_name: str, token: Optional[str] = None, qrcode: bool = True
+    ) -> httpx.Response:
+        """
+        Create a new Evolution API instance.
+        """
+        url = f"{self.base}/instance/create"
+        payload = {
+            "instanceName": instance_name,
+            "qrcode": qrcode
+        }
+        if token:
+            payload["token"] = token
+        return self._post(url, payload)
+
+    def connect_instance(self, instance_name: Optional[str] = None) -> httpx.Response:
+        """
+        Fetch the QR Code for an instance.
+        If instance_name is not provided, uses the client's configured instance.
+        """
+        target_instance = instance_name or self.instance
+        url = f"{self.base}/instance/connect/{target_instance}"
+        return self._client.get(url)
+
+    def logout_instance(self, instance_name: Optional[str] = None) -> httpx.Response:
+        """
+        Logout an instance.
+        """
+        target_instance = instance_name or self.instance
+        url = f"{self.base}/instance/logout/{target_instance}"
+        return self._client.delete(url)
+
+    def delete_instance(self, instance_name: Optional[str] = None) -> httpx.Response:
+        """
+        Delete an instance.
+        """
+        target_instance = instance_name or self.instance
+        url = f"{self.base}/instance/delete/{target_instance}"
+        return self._client.delete(url)
+
+    def fetch_instances(self) -> httpx.Response:
+        """
+        List all instances.
+        """
+        url = f"{self.base}/instance/fetchInstances"
+        return self._client.get(url)
