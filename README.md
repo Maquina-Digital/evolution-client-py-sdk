@@ -105,14 +105,14 @@ evolution-client = { path = "../evolution-client-sdk", develop = true }
 Once you’ve pushed this SDK to your private GitHub repo:
 
 ```bash
-poetry add git+ssh://git@github.com/Maquina-Digital/evolution-client-py-sdk.git@v1.0.0
+poetry add git+ssh://git@github.com/Maquina-Digital/evolution-client-py-sdk.git@v1.2.0
 ```
 
 or in `pyproject.toml`:
 
 ```toml
 [tool.poetry.dependencies]
-evolution-client = { git = "ssh://git@github.com/Maquina-Digital/evolution-client-py-sdk.git", rev = "v1.0.0" }
+evolution-client = { git = "ssh://git@github.com/Maquina-Digital/evolution-client-py-sdk.git", rev = "v1.2.0" }
 ```
 
 Then install:
@@ -242,6 +242,81 @@ if __name__ == "__main__":
 
 ---
 
+## 🛠️ Instance Management
+
+You can create, connect, and manage instances directly from the SDK.
+
+```python
+# Create a new instance
+client.create_instance(
+    instance_name="my_new_instance",
+    token="optional_secret_token",
+    qrcode=True
+)
+
+# Get QR Code (base64) to scan
+response = client.connect_instance("my_new_instance")
+print(response.json())
+
+# List all instances
+instances = client.fetch_instances()
+print(instances.json())
+
+# Logout
+client.logout_instance("my_new_instance")
+
+# Delete
+client.delete_instance("my_new_instance")
+```
+
+---
+
+## 👥 Group & Chat Management
+
+Manage groups and chats programmatically.
+
+```python
+# Create a group
+client.group_create(
+    subject="My Community",
+    participants=["1234567890", "0987654321"],
+    description="Welcome to our group!"
+)
+
+# Update group picture
+client.group_update_picture(
+    group_jid="1234567890-123456@g.us",
+    image_url="https://example.com/group-icon.png"
+)
+
+# Manage participants
+client.group_participants_update(
+    group_jid="1234567890-123456@g.us",
+    action="add", # add, remove, promote, demote
+    participants=["1122334455"]
+)
+
+# Archive a chat
+client.chat_archive(number="1234567890", archive=True)
+
+# Mark as read
+client.chat_mark_read(number="1234567890", read=True)
+```
+
+---
+
+## 👤 Profile Management
+
+```python
+# Update Name
+client.profile_update_name("My Business Name")
+
+# Update Status (About)
+client.profile_update_status("Available for new orders! 🚀")
+```
+
+---
+
 ## 🧰 Webhook Handling
 
 To receive messages, you must configure your Evolution API instance to send events to your application.
@@ -342,10 +417,12 @@ poetry run pytest
 ## 🏗️ Roadmap
 
 - [x] Async support (`httpx.AsyncClient`)
-- [x] Event models for webhook handling
-- [x] Typed API responses
-- [ ] Built-in message queue retry decorators
-- [ ] MIME type auto-detection for media uploads
+- [x] Webhook Handling & Typed Events
+- [x] Core Messaging (Audio, Sticker, Location, etc.)
+- [x] Instance Lifecycle Management
+- [x] Group & Chat Management
+- [x] Profile Management
+- [x] MIME type auto-detection for media uploads
 
 ---
 
@@ -354,7 +431,7 @@ poetry run pytest
 Each release is tagged in Git (`vX.Y.Z`)  
 and can be referenced in Poetry via:
 ```toml
-rev = "v1.0.0"
+rev = "v1.2.0"
 ```
 
 ---

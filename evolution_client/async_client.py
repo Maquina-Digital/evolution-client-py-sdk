@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional
 import httpx
 from loguru import logger
 from .exceptions import EvolutionApiError
+from .utils import get_media_type
 
 class AsyncEvolutionClient:
     def __init__(
@@ -100,11 +101,15 @@ class AsyncEvolutionClient:
             delay: int = 0
     ) -> httpx.Response:
         url = self._endpoint("/message/sendMedia")
+        
+        # Auto-detect mime_type if not provided
+        media_type = mime_type or get_media_type(url_media)
+
         payload: Dict[str, Any] = {
             "number": number,
             "media": url_media,
             "delay": delay,
-            "mediatype": mime_type or "image",
+            "mediatype": media_type,
         }
         if caption:
             payload["caption"] = caption
@@ -175,4 +180,139 @@ class AsyncEvolutionClient:
             payload["description"] = description
         if footer:
             payload["footer"] = footer
+        return await self._post(url, payload)
+
+    # Instance Management
+    async def create_instance(
+            self, *, instance_name: str, token: Optional[str] = None, qrcode: bool = True
+    ) -> httpx.Response:
+        """
+        Create a new Evolution API instance.
+        """
+        url = f"{self.base}/instance/create"
+        payload = {
+            "instanceName": instance_name,
+            "qrcode": qrcode
+        }
+        if token:
+            payload["token"] = token
+        return await self._post(url, payload)
+
+    async def connect_instance(self, instance_name: Optional[str] = None) -> httpx.Response:
+        """
+        Fetch the QR Code for an instance.
+        If instance_name is not provided, uses the client's configured instance.
+        """
+        target_instance = instance_name or self.instance
+        url = f"{self.base}/instance/connect/{target_instance}"
+        return await self._client.get(url)
+
+    async def logout_instance(self, instance_name: Optional[str] = None) -> httpx.Response:
+        """
+        Logout an instance.
+        """
+        target_instance = instance_name or self.instance
+        url = f"{self.base}/instance/logout/{target_instance}"
+        return await self._client.delete(url)
+
+    async def delete_instance(self, instance_name: Optional[str] = None) -> httpx.Response:
+        """
+        Delete an instance.
+        """
+        target_instance = instance_name or self.instance
+        url = f"{self.base}/instance/delete/{target_instance}"
+        return await self._client.delete(url)
+
+    async def fetch_instances(self) -> httpx.Response:
+        """
+        List all instances.
+        """
+        url = f"{self.base}/instance/fetchInstances"
+        return await self._client.get(url)
+
+    # Group Management
+    async def group_create(
+            self, *, subject: str, participants: List[str], description: Optional[str] = None
+    ) -> httpx.Response:
+        """
+        Create a new group.
+        """
+        url = self._endpoint("/group/create")
+        payload = {
+            "subject": subject,
+            "participants": participants
+        }
+        if description:
+            payload["description"] = description
+        return await self._post(url, payload)
+
+    async def group_update_picture(self, *, group_jid: str, image_url: str) -> httpx.Response:
+        """
+        Update group profile picture.
+        """
+        url = self._endpoint("/group/updateProfilePicture")
+        payload = {
+            "id": group_jid,
+            "image": image_url
+        }
+        return await self._post(url, payload)
+
+    async def group_fetch_all(self) -> httpx.Response:
+        """
+        Fetch all groups.
+        """
+        url = self._endpoint("/group/fetchAllGroups")
+        return await self._client.get(url)
+
+    async def group_participants_update(
+            self, *, group_jid: str, action: str, participants: List[str]
+    ) -> httpx.Response:
+        """
+        Update group participants (add, remove, promote, demote).
+        action: "add" | "remove" | "promote" | "demote"
+        """
+        url = self._endpoint("/group/updateParticipant")
+        payload = {
+            "id": group_jid,
+            "action": action,
+            "participants": participants
+        }
+        return await self._post(url, payload)
+
+    # Chat Management
+    async def chat_archive(self, *, number: str, archive: bool = True) -> httpx.Response:
+        """
+        Archive or unarchive a chat.
+        """
+        url = self._endpoint("/chat/archiveChat")
+        payload = {
+            "number": number,
+            "archive": archive
+        }
+        return await self._post(url, payload)
+
+    async def chat_mark_read(self, *, number: str, read: bool = True) -> httpx.Response:
+        """
+        Mark a chat as read or unread.
+        """
+        endpoint = "/chat/markMessageAsRead" if read else "/chat/markMessageAsUnread"
+        url = self._endpoint(endpoint)
+        payload = {"read": read}
+        return await self._post(url, payload)
+
+    # Profile Management
+    async def profile_update_name(self, name: str) -> httpx.Response:
+        """
+        Update profile name.
+        """
+        url = self._endpoint("/chat/updateProfileName")
+        payload = {"name": name}
+        return await self._post(url, payload)
+
+    async def profile_update_status(self, status: str) -> httpx.Response:
+        """
+        Update profile status (about).
+        """
+        url = self._endpoint("/chat/updateProfileStatus")
+        payload = {"status": status}
         return await self._post(url, payload)
