@@ -105,14 +105,14 @@ evolution-client = { path = "../evolution-client-sdk", develop = true }
 Once you’ve pushed this SDK to your private GitHub repo:
 
 ```bash
-poetry add git+ssh://git@github.com/Maquina-Digital/evolution-client-py-sdk.git@v1.0.0
+poetry add git+ssh://git@github.com/Maquina-Digital/evolution-client-py-sdk.git@v1.2.0
 ```
 
 or in `pyproject.toml`:
 
 ```toml
 [tool.poetry.dependencies]
-evolution-client = { git = "ssh://git@github.com/Maquina-Digital/evolution-client-py-sdk.git", rev = "v1.0.0" }
+evolution-client = { git = "ssh://git@github.com/Maquina-Digital/evolution-client-py-sdk.git", rev = "v1.2.0" }
 ```
 
 Then install:
@@ -417,10 +417,12 @@ poetry run pytest
 ## 🏗️ Roadmap
 
 - [x] Async support (`httpx.AsyncClient`)
-- [x] Event models for webhook handling
-- [x] Typed API responses
-- [ ] Built-in message queue retry decorators
-- [ ] MIME type auto-detection for media uploads
+- [x] Webhook Handling & Typed Events
+- [x] Core Messaging (Audio, Sticker, Location, etc.)
+- [x] Instance Lifecycle Management
+- [x] Group & Chat Management
+- [x] Profile Management
+- [x] MIME type auto-detection for media uploads
 
 ---
 
@@ -429,7 +431,7 @@ poetry run pytest
 Each release is tagged in Git (`vX.Y.Z`)  
 and can be referenced in Poetry via:
 ```toml
-rev = "v1.0.0"
+rev = "v1.2.0"
 ```
 
 ---

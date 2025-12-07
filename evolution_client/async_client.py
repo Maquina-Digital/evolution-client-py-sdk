@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional
 import httpx
 from loguru import logger
 from .exceptions import EvolutionApiError
+from .utils import get_media_type
 
 class AsyncEvolutionClient:
     def __init__(
@@ -100,11 +101,15 @@ class AsyncEvolutionClient:
             delay: int = 0
     ) -> httpx.Response:
         url = self._endpoint("/message/sendMedia")
+        
+        # Auto-detect mime_type if not provided
+        media_type = mime_type or get_media_type(url_media)
+
         payload: Dict[str, Any] = {
             "number": number,
             "media": url_media,
             "delay": delay,
-            "mediatype": mime_type or "image",
+            "mediatype": media_type,
         }
         if caption:
             payload["caption"] = caption
