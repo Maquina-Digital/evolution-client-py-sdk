@@ -1,0 +1,9 @@
+{
+    "event": "messages.upsert",
+    "instance": "test-instance",
+    "data": {
+        "key": {
+            "id": "123"
+        }
+    }
+}

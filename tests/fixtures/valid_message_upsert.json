@@ -1,0 +1,20 @@
+{
+    "event": "messages.upsert",
+    "instance": "production-instance",
+    "sender": "5531999887766@s.whatsapp.net",
+    "data": {
+        "key": {
+            "remoteJid": "5531999887766@s.whatsapp.net",
+            "fromMe": false,
+            "id": "3EB0ABCD1234567890"
+        },
+        "pushName": "João Silva",
+        "message": {
+            "conversation": "Olá, gostaria de mais informações"
+        },
+        "messageType": "conversation",
+        "messageTimestamp": 1702000000,
+        "owner": false,
+        "source": "android"
+    }
+}
