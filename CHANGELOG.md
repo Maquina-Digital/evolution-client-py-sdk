@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.3.0...v1.4.0) (2025-12-20)
+
+
+### Features
+
+* Improve webhook handler resilience by returning RawWebhookPayload for malformed or incomplete payloads. ([e26ac82](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/e26ac82feedcc9dccfec6114a89e05d8fe192f50))
+
 # [1.3.0](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.2.0...v1.3.0) (2025-12-07)
 
 
