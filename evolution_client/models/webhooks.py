@@ -20,6 +20,22 @@ class MessageData(BaseModel):
     owner: Optional[bool] = False
     source: Optional[str] = None
 
+
+class RawWebhookPayload(BaseModel):
+    """
+    Fallback container for webhook payloads that fail strict validation.
+    
+    This is returned by the SDK when external payloads cannot be parsed
+    into known event models. It preserves the original data for consumer
+    inspection while preventing ValidationError from propagating.
+    """
+    model_config = {"extra": "allow"}
+    
+    raw_payload: Dict[str, Any]
+    event_type: Optional[str] = None
+    parse_error: str
+
+
 # --- Specific Event Models ---
 
 class MessageUpsertEvent(WebhookBase):
@@ -61,5 +77,7 @@ WebhookEvent = Union[
     MessageUpdateEvent,
     ConnectionUpdateEvent,
     QrCodeEvent,
-    WebhookBase # Fallback for unknown events
+    WebhookBase,  # Fallback for unknown but valid events
+    RawWebhookPayload,  # Fallback for unparseable payloads
 ]
+

@@ -1,0 +1,15 @@
+{
+    "event": "messages.upsert",
+    "instance": "test-instance",
+    "data": {
+        "key": {
+            "remoteJid": "5531999887766@s.whatsapp.net",
+            "id": "MSG123"
+        },
+        "message": {
+            "conversation": "Hello"
+        },
+        "messageType": "conversation",
+        "messageTimestamp": 1702000000
+    }
+}

@@ -1,5 +1,5 @@
 import pytest
-from evolution_client import WebhookHandler, MessageUpsertEvent, MessageUpdateEvent
+from evolution_client import WebhookHandler, MessageUpsertEvent, MessageUpdateEvent, RawWebhookPayload
 
 def test_webhook_handler_routing():
     handler = WebhookHandler()
@@ -38,7 +38,15 @@ def test_webhook_handler_unknown_event():
     assert event.event == "unknown.event"
 
 def test_webhook_handler_missing_event_field():
+    """
+    When event field is missing, handler returns RawWebhookPayload.
+    This is the resilient fallback behavior - handler never returns None.
+    """
     handler = WebhookHandler()
     payload = {"foo": "bar"}
     event = handler.handle(payload)
-    assert event is None
+    # New contract: handler never returns None, returns RawWebhookPayload instead
+    assert isinstance(event, RawWebhookPayload)
+    assert event.raw_payload == payload
+    assert event.event_type is None
+

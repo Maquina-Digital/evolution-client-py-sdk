@@ -23,6 +23,8 @@ from .models.webhooks import (
     MessageUpdateEvent,
     ConnectionUpdateEvent,
     QrCodeEvent,
+    RawWebhookPayload,
+    WebhookBase,
 )
 from .models.responses import SendMessageResponse
 from .service import MessagingService

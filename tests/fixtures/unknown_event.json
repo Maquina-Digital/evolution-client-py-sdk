@@ -1,0 +1,10 @@
+{
+    "event": "some.future.event",
+    "instance": "test-instance",
+    "data": {
+        "custom": "data",
+        "nested": {
+            "value": 123
+        }
+    }
+}
