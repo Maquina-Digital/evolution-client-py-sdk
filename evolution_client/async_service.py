@@ -4,7 +4,8 @@ from loguru import logger
 from .async_client import AsyncEvolutionClient
 from .models import (
     Message, TextMessage, ButtonsMessage, PollMessage, MediaMessage,
-    AudioMessage, StickerMessage, LocationMessage, ListMessage, ReactionMessage
+    AudioMessage, StickerMessage, LocationMessage, ListMessage, ReactionMessage,
+    ContactMessage, PtvMessage, StatusMessage,
 )
 
 class AsyncMessagingService:
@@ -78,6 +79,31 @@ class AsyncMessagingService:
             resp = await self.client.send_reaction(
                 key=message.key,
                 reaction=message.reaction,
+            )
+        elif isinstance(message, ContactMessage):
+            resp = await self.client.send_contact(
+                number=message.number,
+                contact_name=message.contact_name,
+                contact_number=message.contact_number,
+                organization=message.organization,
+                email=message.email,
+                delay=message.delay or 0,
+            )
+        elif isinstance(message, PtvMessage):
+            resp = await self.client.send_ptv(
+                number=message.number,
+                ptv=message.ptv,
+                delay=message.delay or 0,
+            )
+        elif isinstance(message, StatusMessage):
+            resp = await self.client.send_status(
+                type=message.content_type,
+                content=message.content,
+                caption=message.caption,
+                background_color=message.background_color,
+                font=message.font,
+                all_contacts=message.all_contacts,
+                status_jid_list=message.status_jid_list,
             )
         else:
             raise ValueError(f"Unsupported message type: {message.type}")

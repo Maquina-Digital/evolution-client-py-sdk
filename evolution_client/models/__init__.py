@@ -11,6 +11,9 @@ from .messages import (
     ListSection,
     ListRow,
     ReactionMessage,
+    ContactMessage,
+    PtvMessage,
+    StatusMessage,
     Message,
 )
 from .group import Group, GroupParticipant

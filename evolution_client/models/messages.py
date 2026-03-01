@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, constr, conint, field_validator
 Phone = constr(strip_whitespace=True, min_length=5, max_length=32)
 
 class BaseMessage(BaseModel):
-    type: Literal["text", "buttons", "poll", "media", "audio", "sticker", "location", "list", "reaction"]
+    type: Literal["text", "buttons", "poll", "media", "audio", "sticker", "location", "list", "reaction", "contact", "ptv", "status"]
     number: Phone
     delay: Optional[int] = Field(default=0, ge=0)
 
@@ -86,6 +86,27 @@ class ListMessage(BaseMessage):
     footer: Optional[str] = None
     sections: List[ListSection]
 
+class ContactMessage(BaseMessage):
+    type: Literal["contact"] = "contact"
+    contact_name: constr(min_length=1)
+    contact_number: constr(min_length=5)
+    organization: Optional[str] = None
+    email: Optional[str] = None
+
+class PtvMessage(BaseMessage):
+    type: Literal["ptv"] = "ptv"
+    ptv: constr(min_length=5)
+
+class StatusMessage(BaseMessage):
+    type: Literal["status"] = "status"
+    content_type: str  # "text", "image", "video", "audio"
+    content: constr(min_length=1)
+    caption: Optional[str] = None
+    background_color: Optional[str] = None
+    font: Optional[int] = None
+    all_contacts: bool = True
+    status_jid_list: Optional[List[str]] = None
+
 Message = Union[
     TextMessage, 
     ButtonsMessage, 
@@ -95,5 +116,9 @@ Message = Union[
     StickerMessage,
     LocationMessage,
     ReactionMessage,
-    ListMessage
+    ListMessage,
+    ContactMessage,
+    PtvMessage,
+    StatusMessage,
 ]
+

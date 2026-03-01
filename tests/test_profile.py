@@ -6,7 +6,7 @@ from evolution_client import AsyncEvolutionClient
 class TestProfileManagement(unittest.IsolatedAsyncioTestCase):
     async def test_profile_update_name(self):
         async with respx.mock:
-            respx.post("https://api.example.com/chat/updateProfileName/default").mock(
+            respx.post("https://api.example.com/profile/updateProfileName/default").mock(
                 return_value=Response(200, json={"status": "success"})
             )
             async with AsyncEvolutionClient("https://api.example.com", "default", "key") as client:
@@ -15,7 +15,7 @@ class TestProfileManagement(unittest.IsolatedAsyncioTestCase):
 
     async def test_profile_update_status(self):
         async with respx.mock:
-            respx.post("https://api.example.com/chat/updateProfileStatus/default").mock(
+            respx.post("https://api.example.com/profile/updateProfileStatus/default").mock(
                 return_value=Response(200, json={"status": "success"})
             )
             async with AsyncEvolutionClient("https://api.example.com", "default", "key") as client:
