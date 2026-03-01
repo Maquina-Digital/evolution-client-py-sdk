@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.4.0...v1.5.0) (2026-03-01)
+
+
+### Features
+
+* Add support for sending contact, PTV, and status messages, including new models and client methods. ([7cf0cec](https://github.com/Maquina-Digital/evolution-client-py-sdk/commit/7cf0cec09dd172c3494cec0dd11ce5129943074e))
+
 # [1.4.0](https://github.com/Maquina-Digital/evolution-client-py-sdk/compare/v1.3.0...v1.4.0) (2025-12-20)
 
 
